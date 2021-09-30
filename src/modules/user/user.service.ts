@@ -19,6 +19,10 @@ export class UserService {
       },
     });
 
+    if (result == null) {
+      return null;
+    }
+
     return UserMapper.toEntity(result);
   }
 

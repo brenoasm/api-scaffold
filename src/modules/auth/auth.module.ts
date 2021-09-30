@@ -10,6 +10,7 @@ import { LocalAuthGuard } from './guards/local.auth.guard';
 import { JwtAuthGuard } from './guards/jwt.auth.guard';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { authProviders } from './auth.providers';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     JwtStrategy,
     LocalAuthGuard,
     JwtAuthGuard,
+    ...authProviders,
   ],
   exports: [AuthService, LocalAuthGuard, JwtAuthGuard],
   controllers: [AuthController],
