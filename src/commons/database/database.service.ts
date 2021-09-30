@@ -4,7 +4,7 @@ import { Sequelize } from 'sequelize-typescript';
 
 import { DatabaseConfigAttributes } from './interfaces/databaseConfig.interface';
 
-const PROVIDER = 'SEQUELIZE';
+import { UserModel } from '../../modules/user/models/user.model';
 
 type DatabaseProvider = (configService: ConfigService) => Promise<any>;
 
@@ -34,7 +34,7 @@ export class DatabaseService {
         },
       );
 
-      sequelize.addModels([]);
+      sequelize.addModels([UserModel]);
 
       await sequelize.sync();
 
@@ -43,4 +43,4 @@ export class DatabaseService {
   }
 }
 
-export { DatabaseProvider, PROVIDER };
+export { DatabaseProvider };

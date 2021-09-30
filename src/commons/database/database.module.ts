@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { DatabaseService, PROVIDER } from './database.service';
+import { DATABASE_PROVIDER } from '../constants';
+import { DatabaseService } from './database.service';
 
 @Module({
   imports: [ConfigModule],
   providers: [
     {
-      provide: PROVIDER,
+      provide: DATABASE_PROVIDER,
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
         const provider = DatabaseService.getProvider();

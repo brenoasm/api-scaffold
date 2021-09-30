@@ -5,11 +5,11 @@ services:
     image: postgres
     restart: always
     environment:
-      - POSTGRES_DB=horser
+      - POSTGRES_DB=scaffoldDatabase
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
     volumes:
-      - ./data:/data/horser/db
+      - ./data:/data/some-db/db
     ports:
       - 5432:5432
     networks:

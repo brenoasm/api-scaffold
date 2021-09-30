@@ -1,23 +1,34 @@
-import { Injectable } from '@nestjs/common';
-
-export type User = any;
+import { Inject, Injectable } from '@nestjs/common';
+import { USER_REPOSITORY } from 'src/commons/constants';
+import { CreateUserDTO } from './dtos/create.user.dto';
+import { UserEntity } from './entities/user.entity';
+import { UserMapper } from './mappers/user.mapper';
+import { UserModel } from './models/user.model';
 
 @Injectable()
 export class UserService {
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
+  constructor(
+    @Inject(USER_REPOSITORY)
+    private readonly userRepository: typeof UserModel,
+  ) {}
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find((user) => user.username === username);
+  async findOne(email: string): Promise<UserEntity | undefined> {
+    const result = await this.userRepository.findOne({
+      where: {
+        email: email,
+      },
+    });
+
+    return UserMapper.toEntity(result);
+  }
+
+  async insert(createUserDTO: CreateUserDTO): Promise<UserEntity | undefined> {
+    const result = await this.userRepository.create({
+      username: createUserDTO.username,
+      email: createUserDTO.email,
+      password: createUserDTO.password,
+    });
+
+    return UserMapper.toEntity(result);
   }
 }
