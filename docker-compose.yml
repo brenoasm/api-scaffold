@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  db:
+    container_name: postgresql-container
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=horser
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+    volumes:
+      - ./data:/data/horser/db
+    ports:
+      - 5432:5432
+    networks:
+      - database-api-network
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    networks:
+      - database-api-network
+
+networks:
+  database-api-network:
